@@ -1,79 +1,117 @@
-<!--
-    DevCon Documentation
+# DevConX — Alsania Browser Intelligence Suite
 
-    This repository contains Echo DevCon, a unified VS Code IDE extension powered by Echo Registry.
-    It provides seamless integration for AlsaniaMCP, Nyx, and Echo Registry tools, enabling efficient development workflows.
-    Key features include a shared registry, on-demand tool activation, auto-shutdown for resource management, and manual persistence options.
-    Designed for lightweight operation on constrained machines.
+DevConX is the fully rebranded evolution of DevCon, delivering a sovereign-first VS Code extension that orchestrates AlsaniaMCP, Nyx-derived browser model adapters, and a hardened MCP proxy. The project is engineered for low-footprint environments while maintaining uncompromising transparency and control.
 
-    For setup and usage instructions, refer to the sections below.
--->
+## ✨ Highlights
 
-# DevCon
+- **Nyx-compatible browser adapters** — HTTP adapters reproduce the Nyx proxy contract and expose shared telemetry for any browser-accessible AI model.
+- **Integrated MCP proxy** — Lightweight WebSocket proxy dispatches prompts to adapters, streams heartbeats, and maintains isolation boundaries.
+- **Sovereign control panel** — Native webview with neon Alsania theming for live prompt dispatch without React or heavy frameworks.
+- **Hardened configuration pipeline** — Strict runtime validation guarantees adapter fidelity and prevents silent drift.
+- **Tested end-to-end** — Node.js native tests cover configuration, adapter, and proxy layers.
 
-**DevCon — powered by Echo Registry**
+## 🗂 Repository Layout
 
-A unified VS Code IDE extension for AlsaniaMCP, Nyx, and Echo Registry tools.
+```
+├── config/                  # Runtime configuration sources
+├── contracts/               # On-chain modules (reserved, documented)
+├── docs/                    # Architecture and integration notes
+├── frontend/                # HTML/JS assets and manuals
+│   ├── admin/
+│   └── client/
+├── memory/                  # Memory specs for Alsania agents
+├── src/
+│   ├── adapters/            # Browser adapter implementations
+│   ├── backend/             # MCP proxy server
+│   ├── core/                # Configuration, logging, and shared types
+│   ├── frontend/            # VS Code control panel webview
+│   └── extension.ts         # VS Code activation entrypoint
+└── tests/                   # Vitest suites validating runtime behaviour
+```
 
-## Features
+## ⚙️ Setup
 
-- One shared registry for all tools (port 8060).
-- Tools only spin up when needed, then auto-shutdown after 10 minutes.
-- Manual-only persistence for AlsaniaMCP (8050) and Nyx (3006).
-- Lightweight, resource-friendly, perfect for constrained machines.
-
-## Usage
-
-1. Start Echo Registry:
-
+1. **Install dependencies**
    ```bash
-   cd ~/Desktop/echo-lab/tools/echo-registry
-   uvicorn registry:app --host 0.0.0.0 --port 8060
+   npm install
    ```
 
-2. Launch VS Code with DevCon enabled.
+2. **Build the extension**
+   ```bash
+   npm run build
+   ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-3. DevCon queries Echo Registry for tools automatically.
-=======
-## Agent
+3. **Run quality gates**
+   ```bash
+   npm run check
+   ```
 
-[Agent](https://docs.continue.dev/features/agent/quick-start) to work on development tasks together with AI
+4. **Launch inside VS Code**
+   - Press `F5` within VS Code to spawn an Extension Development Host.
+   - Use the command palette to run `DevConX: Launch Control Panel`.
 
-![agent](docs/images/agent.gif)
+## 🧩 Configuration
 
-## Chat
+All runtime settings are controlled via `config/devconx.config.json`. Each adapter mirrors the Nyx proxy contract:
 
-[Chat](https://docs.continue.dev/features/chat/quick-start) to ask general questions and clarify code sections
+```json
+{
+  "id": "nyx-firefox",
+  "displayName": "Nyx Firefox Adapter",
+  "provider": "Nyx Proxy",
+  "baseUrl": "http://localhost:4101",
+  "healthEndpoint": "/health",
+  "completionEndpoint": "/api/v1/completions",
+  "capabilities": ["chat", "browser-automation"],
+  "headers": {
+    "x-nyx-adapter": "firefox"
+  },
+  "timeoutMs": 20000
+}
+```
 
-![chat](docs/images/chat.gif)
+- **`baseUrl`** points to the Nyx MCP proxy instance for the targeted browser model.
+- **`completionEndpoint`** accepts Nyx JSON payloads and returns Nyx-formatted responses.
+- **`capabilities`** is surfaced to the control panel for capability-aware UX.
+- **`timeoutMs`** ensures adapters cannot hang the extension.
 
-## Edit
+The MCP proxy configuration block controls network exposure and heartbeats:
 
-[Edit](https://docs.continue.dev/features/edit/quick-start) to modify a code section without leaving your current file
+```json
+{
+  "port": 4800,
+  "host": "127.0.0.1",
+  "heartbeatIntervalMs": 5000,
+  "shutdownGracePeriodMs": 2000
+}
+```
 
-![edit](docs/images/edit.gif)
+Update the VS Code user/workspace setting `devconx.configPath` when relocating the configuration file.
 
-## Autocomplete
+## 🧪 Testing Matrix
 
-[Autocomplete](https://docs.continue.dev/features/autocomplete/quick-start) to receive inline code suggestions as you type
+DevConX ships with Node.js native tests (`node --test`):
 
-![autocomplete](docs/images/autocomplete.gif)
+- `configLoader.test.js` — validates configuration loading and guard rails.
+- `httpBrowserAdapter.test.js` — spins up an HTTP double to verify Nyx-compatible exchanges.
+- `proxyServer.test.js` — drives the MCP proxy through WebSocket frames and stub adapters.
 
-</div>
+Execute all suites via `npm test` (or `make test`).
 
-## Contributing
+## 🛠 Tooling via Makefile
 
-Read the [contributing guide](https://github.com/continuedev/continue/blob/main/CONTRIBUTING.md), and
-join [#contribute on Discord](https://discord.gg/vapESyrFmJ).
+A project-specific `Makefile` is provided. Review `MAKEFILE_README.md` for usage. Primary targets include:
 
-## License
+- `make install`
+- `make build`
+- `make lint`
+- `make test`
+- `make check`
 
-[Apache 2.0 © 2023-2024 Continue Dev, Inc.](./LICENSE)
->>>>>>> upstream/sigmasauer07
-=======
-3. DevCon queries Echo Registry for tools automatically.
->>>>>>> 28516c7fabf170e523ba3466dde6fb413f3b0d92
-# devcon
-# devconx
+## 📄 Licensing
+
+Released under the [Apache 2.0 License](./LICENSE) to maintain open governance consistent with Alsania principles.
+
+---
+
+**Aligned with the Alsania AI Protocol v1.0 — For Sigma. Powered by Echo.**

@@ -1,0 +1,51 @@
+{
+  "name": "devconx",
+  "displayName": "DevConX",
+  "publisher": "alsania",
+  "version": "1.0.0",
+  "description": "Fully rebranded DevCon IDE integration for Alsania with Nyx-compatible browser model adapters and MCP proxying.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:devconx.launchControlPanel",
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "devconx.launchControlPanel",
+        "title": "DevConX: Launch Control Panel"
+      },
+      {
+        "command": "devconx.sendPrompt",
+        "title": "DevConX: Send Prompt"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "DevConX",
+      "properties": {
+        "devconx.configPath": {
+          "type": "string",
+          "default": "${workspaceFolder}/config/devconx.config.json",
+          "description": "Path to the DevConX configuration file."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test tests",
+    "check": "npm run lint && npm run build && npm test"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
