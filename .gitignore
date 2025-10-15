@@ -3,6 +3,9 @@ node_modules/
 pnpm-lock.yaml
 yarn.lock
 package-lock.json
+.venv/
+__pycache__/
+*.pyc
 
 # Environment variables
 .env
@@ -82,4 +85,28 @@ devconx_TREE_*.txt
 .binary/
 .dist/
 .manual-testing-sandbox/
+
+# Backend adapter Python venv and cache
+backend_adapter/.venv/
+backend_adapter/__pycache__/
+backend_adapter/*.pyc
+
+# Extension-specific ignores
+extensions/vscode/node_modules/
+extensions/intellij/.gradle/
+extensions/intellij/build/
+extensions/.continue-debug/
+
+# Package-specific ignores
+packages/*/node_modules/
+packages/*/dist/
+packages/*/build/
+
+# Branding assets (to be updated when assets are ready)
+/branding/
+/.branding/
+branding_*.png
+branding_*.svg
+icon_*.png
+icon_*.svg
 +++++++ REPLACE
