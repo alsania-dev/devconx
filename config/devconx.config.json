@@ -1,0 +1,36 @@
+{
+  "adapters": [
+    {
+      "id": "nyx-firefox",
+      "displayName": "Nyx Firefox Adapter",
+      "provider": "Nyx Proxy",
+      "baseUrl": "http://localhost:4101",
+      "healthEndpoint": "/health",
+      "completionEndpoint": "/api/v1/completions",
+      "capabilities": ["chat", "browser-automation"],
+      "headers": {
+        "x-nyx-adapter": "firefox"
+      },
+      "timeoutMs": 20000
+    },
+    {
+      "id": "nyx-chromium",
+      "displayName": "Nyx Chromium Adapter",
+      "provider": "Nyx Proxy",
+      "baseUrl": "http://localhost:4102",
+      "healthEndpoint": "/health",
+      "completionEndpoint": "/api/v1/completions",
+      "capabilities": ["chat", "browser-automation", "vision"],
+      "headers": {
+        "x-nyx-adapter": "chromium"
+      },
+      "timeoutMs": 20000
+    }
+  ],
+  "proxy": {
+    "port": 4800,
+    "host": "127.0.0.1",
+    "heartbeatIntervalMs": 5000,
+    "shutdownGracePeriodMs": 2000
+  }
+}
