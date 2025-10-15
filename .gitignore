@@ -1,0 +1,85 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Secrets and keys
+*.key
+*.pem
+*.p12
+id_rsa*
+config
+*.env
+*secret*
+*auth*
+private*
+key*
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+echo-devcon.log
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+.continue/
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+devconx_20251015_0056.clean.zip
+
+# Database
+*.sqlite
+*.db
+
+# Tree files and misc generated
+*TREE_*.txt
+devconx_TREE_*.txt
+
+# OS
+/opt/
+/proc/
+/sys/
+
+# Project-specific ignores
+.binary/
+.dist/
+.manual-testing-sandbox/
++++++++ REPLACE
