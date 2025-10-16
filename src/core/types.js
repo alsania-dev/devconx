@@ -19,6 +19,7 @@
  * @property {string} displayName
  * @property {string} provider
  * @property {readonly string[]} capabilities
+ * @property {boolean=} isWebBased
  * @property {() => Promise<void>} initialize
  * @property {() => Promise<boolean>} isHealthy
  * @property {(prompt: BrowserModelPrompt) => Promise<BrowserModelResponse>} sendPrompt
@@ -36,6 +37,7 @@
  * @property {readonly string[]} capabilities
  * @property {Record<string, string>=} headers
  * @property {number=} timeoutMs
+ * @property {boolean=} webBased
  */
 
 /**

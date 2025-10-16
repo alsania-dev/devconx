@@ -1,30 +1,44 @@
 {
   "adapters": [
     {
-      "id": "nyx-firefox",
-      "displayName": "Nyx Firefox Adapter",
-      "provider": "Nyx Proxy",
-      "baseUrl": "http://localhost:4101",
-      "healthEndpoint": "/health",
-      "completionEndpoint": "/api/v1/completions",
-      "capabilities": ["chat", "browser-automation"],
-      "headers": {
-        "x-nyx-adapter": "firefox"
-      },
-      "timeoutMs": 20000
+      "id": "chatgpt-web",
+      "displayName": "ChatGPT Web",
+      "provider": "OpenAI",
+      "baseUrl": "https://chat.openai.com",
+      "completionEndpoint": "https://chat.openai.com/",
+      "capabilities": ["chat", "web-based"],
+      "webBased": true,
+      "timeoutMs": 60000
     },
     {
-      "id": "nyx-chromium",
-      "displayName": "Nyx Chromium Adapter",
-      "provider": "Nyx Proxy",
-      "baseUrl": "http://localhost:4102",
-      "healthEndpoint": "/health",
-      "completionEndpoint": "/api/v1/completions",
-      "capabilities": ["chat", "browser-automation", "vision"],
-      "headers": {
-        "x-nyx-adapter": "chromium"
-      },
-      "timeoutMs": 20000
+      "id": "claude-web",
+      "displayName": "Claude Web",
+      "provider": "Anthropic",
+      "baseUrl": "https://claude.ai",
+      "completionEndpoint": "https://claude.ai/chat",
+      "capabilities": ["chat", "web-based"],
+      "webBased": true,
+      "timeoutMs": 60000
+    },
+    {
+      "id": "copilot-web",
+      "displayName": "GitHub Copilot",
+      "provider": "Microsoft",
+      "baseUrl": "https://github.com/copilot",
+      "completionEndpoint": "https://github.com/copilot/chat",
+      "capabilities": ["chat", "coding", "web-based"],
+      "webBased": true,
+      "timeoutMs": 60000
+    },
+    {
+      "id": "deepseek-web",
+      "displayName": "DeepSeek Chat",
+      "provider": "DeepSeek",
+      "baseUrl": "https://chat.deepseek.com",
+      "completionEndpoint": "https://chat.deepseek.com/",
+      "capabilities": ["chat", "web-based"],
+      "webBased": true,
+      "timeoutMs": 60000
     }
   ],
   "proxy": {
