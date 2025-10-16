@@ -1,0 +1,94 @@
+name: ChatGPT Web Integration
+version: 1.0.0
+schema: v1
+models:
+  - name: chatgpt-web
+    provider: mcp
+    model: query_chatgpt
+
+tools:
+  - name: explain_code
+  - name: refactor_code
+  - name: continue_conversation
+  - name: generate_code_with_preview
+  - name: code_review
+  - name: generate_docs
+  - name: generate_tests
+  - name: debug_error
+  - name: translate_code
+  - name: optimize_performance
+  - name: scan_security
+  - name: suggest_architecture
+  - name: interactive_learn
+  - name: generate_architecture_diagram
+  - name: generate_sequence_diagram
+  - name: generate_class_diagram
+  - name: generate_state_diagram
+  - name: generate_activity_diagram
+  - name: generate_use_case_diagram
+  - name: generate_component_diagram
+  - name: generate_deployment_diagram
+  - name: generate_package_diagram
+  - name: generate_object_diagram
+  - name: generate_communication_diagram
+  - name: generate_timing_diagram
+  - name: generate_interaction_overview_diagram
+  - name: /call_tool
+    description: Call external tool
+    parameters:
+      tool: { tool_name }
+      parameters:
+        { parameter_name }: { parameter_value }
+
+  - name: /call_api
+    description: Call external API
+    parameters:
+      api: { api_name }
+      parameters:
+        { parameter_name }: { parameter_value }
+
+tools:
+  - name: generate_communication_diagram
+  - name: generate_timing_diagram
+  - name: generate_interaction_overview_diagram
+  - name: call_tool
+  - name: call_api
+
+slashCommands:
+  - name: /explain
+    description: Explain selected code
+    action:
+      type: tool
+      tool: explain_code
+      parameters:
+        code: { selected_code }
+        language: { file_language }
+
+  - name: /refactor
+    description: Refactor selected code
+    action:
+      type: tool
+      tool: refactor_code
+      parameters:
+        code: { selected_code }
+        language: { file_language }
+
+  - name: /learn
+    description: Start interactive lesson
+    action:
+      type: tool
+      tool: interactive_learn
+      parameters:
+        topic: { input }
+
+  - name: /optimize
+    description: Optimize code performance
+    action:
+      type: tool
+      tool: optimize_performance
+
+  - name: /review
+    description: Code security review
+    action:
+      type: tool
+      tool: scan_security

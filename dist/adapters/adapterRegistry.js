@@ -1,4 +1,5 @@
 import { HttpBrowserAdapter } from './httpBrowserAdapter.js';
+import { WebBrowserAdapter } from './webBrowserAdapter.js';
 import { Logger } from '../core/logger.js';
 
 /** @typedef {import('../core/types.js').AdapterConfiguration} AdapterConfiguration */
@@ -24,7 +25,12 @@ export class AdapterRegistry {
   async initialize() {
     await Promise.all(
       this.#configurations.map(async (config) => {
-        const adapter = new HttpBrowserAdapter(config, this.#logger);
+        let adapter;
+        if (config.webBased === true || config.completionEndpoint?.startsWith('http')) {
+          adapter = new WebBrowserAdapter(config, this.#logger);
+        } else {
+          adapter = new HttpBrowserAdapter(config, this.#logger);
+        }
         await adapter.initialize();
         this.#adapters.set(adapter.id, adapter);
       })

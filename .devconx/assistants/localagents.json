@@ -1,0 +1,108 @@
+{
+  "models": [
+    {
+      "title": "Mistral 7B",
+      "provider": "ollama",
+      "model": "mistral:7b-instruct-q4",
+      "apiBase": "http://localhost:11434"
+    },
+    {
+      "title": "CodeLlama",
+      "provider": "ollama",
+      "model": "codellama:7b-instruct",
+      "apiBase": "http://localhost:11434"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Starcoder",
+    "provider": "ollama",
+    "model": "starcoder2:3b",
+    "apiBase": "http://localhost:11434"
+  },
+  "embeddingsProvider": {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiBase": "http://localhost:11434"
+  },
+  "contextProviders": [
+    {
+      "name": "code",
+      "params": {}
+    },
+    {
+      "name": "docs",
+      "params": {}
+    },
+    {
+      "name": "diff",
+      "params": {}
+    },
+    {
+      "name": "terminal",
+      "params": {}
+    },
+    {
+      "name": "problems",
+      "params": {}
+    },
+    {
+      "name": "folder",
+      "params": {}
+    },
+    {
+      "name": "codebase",
+      "params": {}
+    }
+  ],
+  "slashCommands": [
+    {
+      "name": "edit",
+      "description": "Edit code in current file"
+    },
+    {
+      "name": "comment",
+      "description": "Write comments for code"
+    },
+    {
+      "name": "share",
+      "description": "Export conversation"
+    },
+    {
+      "name": "cmd",
+      "description": "Generate shell commands"
+    },
+    {
+      "name": "commit",
+      "description": "Generate commit message"
+    }
+  ],
+  "customCommands": [
+    {
+      "name": "test",
+      "prompt": "Write comprehensive tests for the selected code. Include edge cases and error handling.",
+      "description": "Generate tests for selected code"
+    },
+    {
+      "name": "optimize",
+      "prompt": "Optimize this code for performance and readability. Explain the improvements made.",
+      "description": "Optimize selected code"
+    },
+    {
+      "name": "debug",
+      "prompt": "Help me debug this code. Identify potential issues and suggest fixes.",
+      "description": "Debug assistance"
+    },
+    {
+      "name": "refactor",
+      "prompt": "Refactor this code following best practices. Improve structure and maintainability.",
+      "description": "Refactor code"
+    }
+  ],
+  "allowAnonymousTelemetry": false,
+  "experimental": {
+    "modelRoles": {
+      "inlineEdit": "mistral:7b-instruct-q4",
+      "applyCodeBlock": "codellama:7b-instruct"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+name: LanceDB Assistant
+version: 0.0.4
+schema: v1
+
+rules:
+  - uses: lancedb/lancedb-rules
+
+docs:
+  - uses: lancedb/lancedb-enterprise-docs
+  - uses: lancedb/lancedb-open-source-docs
+
+prompts:
+  - uses: lancedb/lancedb-table-prompt
+
+models:
+  - uses: ollama/gemma3-4b
+
+  - uses: ollama/qwen2.5-coder-1.5b
+    override:
+      roles:
+        - autocomplete
+
+  - uses: ollama/nomic-embed-text-latest
+
+context:
+  - uses: continuedev/diff-context
+  - uses: continuedev/codebase-context
+  - uses: continuedev/url-context
+  - uses: continuedev/folder-context
+  - uses: continuedev/terminal-context
+  - uses: continuedev/code-context
+  - uses: continuedev/file-context

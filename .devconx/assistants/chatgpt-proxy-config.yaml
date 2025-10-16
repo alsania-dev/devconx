@@ -1,0 +1,41 @@
+name: "ChatGPT Browser Proxy"
+type: "browser-extension"
+endpoint: "http://127.0.0.1:3006/mcp"
+protocol: "http"
+cors: true
+
+capabilities:
+  - "chat"
+  - "tools"
+  - "memory"
+  - "code-execution"
+  - "file-operations"
+  - "web-browsing"
+
+models:
+  - id: "gpt-4"
+    name: "GPT-4 (Browser)"
+    provider: "openai-browser"
+    capabilities: ["chat", "tools", "vision"]
+
+models:
+  - id: "gpt-5"
+    name: "GPT-5 (Browser)"
+    provider: "openai-browser"
+    capabilities: ["chat", "tools", "vision"]
+
+  - id: "gpt-3.5-turbo"
+    name: "GPT-3.5 Turbo (Browser)"
+    provider: "openai-browser"
+    capabilities: ["chat", "tools", "vision"]
+
+tools:
+  enabled: true
+  auto_invoke: true
+  max_parallel: 5
+
+memory:
+  provider: "qdrant"
+  endpoint: "http://127.0.0.1:6333"
+  collection: "devcon_memory"
+  collection: "echo_memory"
