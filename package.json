@@ -4,6 +4,7 @@
   "publisher": "alsania",
   "version": "1.0.0",
   "description": "Fully rebranded DevCon IDE integration for Alsania with Nyx-compatible browser model adapters and MCP proxying.",
+  "repository": "https://github.com/alsania-dev/devconx",
   "license": "Apache-2.0",
   "type": "module",
   "engines": {
@@ -46,6 +47,7 @@
     "test": "node --test tests/",
     "check": "npm run lint && npm run build && npm test"
   },
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@genkit-ai/mcp": "^1.22.0"
+  }
 }

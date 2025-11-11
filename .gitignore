@@ -110,3 +110,7 @@ branding_*.svg
 icon_*.png
 icon_*.svg
 +++++++ REPLACE
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
