@@ -2,15 +2,11 @@
 # Dependencies
 node_modules/
 
+# Editors
+.vscode/
+
 # Environment
 .env
 .env.local
-.env.*
-
-# Logs and temp files
-*.log
-*.tmp
-
-# Editors
-.vscode/
+*.env.*
 ```

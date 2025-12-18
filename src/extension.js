@@ -2,14 +2,14 @@ import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 
 import * as vscode from 'vscode';
+import { McpNyx } from '@alsania-io/mcpnyx';
 
 import { AdapterRegistry } from './adapters/adapterRegistry.js';
-import { ProxyServer } from './backend/proxyServer.js';
 import { ConfigLoader } from './core/config.js';
 import { Logger } from './core/logger.js';
 import { ControlPanel } from './frontend/control-panel/controlPanel.js';
 
-let proxyServer;
+let mcpNyx;
 let registry;
 let controlPanel;
 let logger;
@@ -22,10 +22,18 @@ export async function activate(context) {
     registry = new AdapterRegistry(configuration.adapters, logger);
     await registry.initialize();
 
-    proxyServer = new ProxyServer(configuration.proxy, registry, logger);
-    await proxyServer.start();
+    // Initialize McpNyx with the configuration
+    mcpNyx = new McpNyx({
+      port: configuration.proxy.port,
+      host: configuration.proxy.host,
+      logger: logger
+    });
+    
+    // Start McpNyx server which handles MCP connections
+    await mcpNyx.start();
 
-    const address = proxyServer.getAddress();
+    // Get the server address from McpNyx
+    const address = mcpNyx.getAddress();
     const proxyUrl = address ? `ws://${address.host}:${address.port}` : `ws://${configuration.proxy.host}:${configuration.proxy.port}`;
     controlPanel = new ControlPanel(context, proxyUrl, registry.list());
 
@@ -99,8 +107,8 @@ export async function activate(context) {
 }
 
 export async function deactivate() {
-  await proxyServer?.stop();
-  proxyServer = undefined;
+  await mcpNyx?.stop();
+  mcpNyx = undefined;
   await registry?.dispose();
   registry = undefined;
 }
