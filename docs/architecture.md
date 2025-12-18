@@ -1,9 +1,9 @@
-# DevConX Architecture Overview
+# DevCon-X Architecture Overview
 
-DevConX is structured around three cooperating layers:
+DevCon-X is structured around three cooperating layers:
 
 1. **Adapters** — Pure JavaScript modules that replicate Nyx browser model adapters using HTTP calls. Each adapter adheres to the shared interface documented in `src/core/types.js` and is instantiated through the `AdapterRegistry`.
-2. **Proxy Server** — A WebSocket-based MCP proxy that accepts prompt dispatches, performs heartbeat broadcasts, and delegates requests to adapters. The proxy isolates VS Code processes from browser automation runtimes.
+2. **McpNyx Proxy** — An advanced MCP proxy server that supports multiple protocols (HTTP/SSE/WebSocket) and enables multiple MCP stdio-based and SSE-based servers to run through a unified endpoint. The proxy isolates VS Code processes from browser automation runtimes.
 3. **Extension UX** — A VS Code extension entrypoint with a neon-themed control panel. The interface is implemented without React to comply with Alsania lightweight requirements.
 
 ## Data Flow
@@ -15,13 +15,13 @@ graph LR
     C -->|HTTP JSON| D[Nyx Proxy / Browser Model]
     D -->|completion| C
     C --> B
-    B --> E(WebSocket Proxy)
+    B --> E(McpNyx Proxy Server)
     E -->|response| F[Control Panel / Client]
 ```
 
 ## MCP Proxy Contract
 
-The proxy exposes a single WebSocket endpoint. Messages follow the structure:
+The McpNyx proxy supports multiple endpoints and protocols (HTTP/SSE/WebSocket). WebSocket messages follow the structure:
 
 - **Request**
   ```json
