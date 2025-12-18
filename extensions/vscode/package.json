@@ -1,5 +1,5 @@
 {
-  "name": "devcon-x",
+  "name": "devconx",
   "displayName": "DevConX",
   "publisher": "alsania",
   "version": "1.0.0",
@@ -17,7 +17,7 @@
     "onCommand:devconx.launchControlPanel",
     "onStartupFinished"
   ],
-  "main": "../dist/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -48,6 +48,6 @@
     "check": "npm run lint && npm run build && npm test"
   },
   "dependencies": {
-    "@alsania-io/mcpnyx": "^1.0.4"
+    "@genkit-ai/mcp": "^1.22.0"
   }
 }

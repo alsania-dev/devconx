@@ -26,7 +26,7 @@ export class AdapterRegistry {
     await Promise.all(
       this.#configurations.map(async (config) => {
         let adapter;
-        if (config.webBased === true || config.completionEndpoint?.startsWith('http')) {
+        if (config.webBased === true) {
           adapter = new WebBrowserAdapter(config, this.#logger);
         } else {
           adapter = new HttpBrowserAdapter(config, this.#logger);
