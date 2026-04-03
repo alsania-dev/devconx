@@ -58,6 +58,7 @@ export class ProxyServer {
       clearInterval(this.#heartbeatInterval);
     }
 
+    this.#httpServer.close();
     if (this.#options.shutdownGracePeriodMs > 0) {
       await new Promise((resolve) => setTimeout(resolve, this.#options.shutdownGracePeriodMs));
     }
