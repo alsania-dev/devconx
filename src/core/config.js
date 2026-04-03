@@ -33,7 +33,7 @@ function normalizeHeaders(rawHeaders) {
     Object.entries(rawHeaders).map(([key, value]) => {
       assertString(key, 'Adapter header key must be a non-empty string');
       assertString(value, `Adapter header ${key} must be a non-empty string`);
-      return [key, value.trim()];
+      return [key.trim(), value.trim()];
     })
   );
 
