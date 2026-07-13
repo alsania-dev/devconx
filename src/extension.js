@@ -2,14 +2,14 @@ import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 
 import * as vscode from 'vscode';
-import { McpNyx } from '@alsania-io/mcpnyx';
 
 import { AdapterRegistry } from './adapters/adapterRegistry.js';
+import { ProxyServer } from './backend/proxyServer.js';
 import { ConfigLoader } from './core/config.js';
 import { Logger } from './core/logger.js';
 import { ControlPanel } from './frontend/control-panel/controlPanel.js';
 
-let mcpNyx;
+let proxyServer;
 let registry;
 let controlPanel;
 let logger;
@@ -22,18 +22,13 @@ export async function activate(context) {
     registry = new AdapterRegistry(configuration.adapters, logger);
     await registry.initialize();
 
-    // Initialize McpNyx with the configuration
-    mcpNyx = new McpNyx({
-      port: configuration.proxy.port,
-      host: configuration.proxy.host,
-      logger: logger
-    });
-    
-    // Start McpNyx server which handles MCP connections
-    await mcpNyx.start();
+    // Start the hardened MCP proxy (localhost WebSocket) which isolates VS Code
+    // from the browser automation runtimes. The registry is initialized by the
+    // proxy on start (idempotent if already initialized).
+    proxyServer = new ProxyServer(configuration.proxy, registry, logger);
+    await proxyServer.start();
 
-    // Get the server address from McpNyx
-    const address = mcpNyx.getAddress();
+    const address = proxyServer.getAddress();
     const proxyUrl = address ? `ws://${address.host}:${address.port}` : `ws://${configuration.proxy.host}:${configuration.proxy.port}`;
     controlPanel = new ControlPanel(context, proxyUrl, registry.list());
 
@@ -107,8 +102,8 @@ export async function activate(context) {
 }
 
 export async function deactivate() {
-  await mcpNyx?.stop();
-  mcpNyx = undefined;
+  await proxyServer?.stop();
+  proxyServer = undefined;
   await registry?.dispose();
   registry = undefined;
 }

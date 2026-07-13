@@ -4,7 +4,7 @@ The provided `Makefile` wraps the npm scripts for consistent local and CI execut
 
 ## Targets
 
-- `make install` — Install project dependencies (no external packages required).
+- `make install` — Install project dependencies. Note: the `postinstall` step installs the `@alsania-io/mcpnyx` CLI globally; if you lack permission, use `npm install --ignore-scripts`.
 - `make build` — Copy `src/` into `dist/` for VS Code packaging.
 - `make lint` — Perform syntax checks across all JavaScript sources via `node --check`.
 - `make test` — Execute the Node.js test suites located in `tests/`.

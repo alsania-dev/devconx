@@ -26,7 +26,7 @@ DevCon-X is the fully rebranded evolution of DevCon, delivering a sovereign-firs
 │   ├── core/                # Configuration, logging, and shared types
 │   ├── frontend/            # VS Code control panel webview
 │   └── extension.js         # VS Code activation entrypoint
-└── tests/                   # Vitest suites validating runtime behaviour
+└── tests/                   # Node.js native test suites (node:test) validating runtime behaviour
 ```
 
 ## ⚙️ Setup
@@ -52,7 +52,12 @@ DevCon-X is the fully rebranded evolution of DevCon, delivering a sovereign-firs
 
 ## 🧩 Configuration
 
-All runtime settings are controlled via `config/devconx.config.json`. Each adapter mirrors the Nyx proxy contract:
+All runtime settings are controlled via `config/devconx.config.json`. Adapters come in two flavors:
+
+- **Nyx-compatible HTTP adapters** (`HttpBrowserAdapter`) — mirror the Nyx proxy contract over real HTTP/JSON, used when an adapter is *not* web-based (e.g. `webBased` is omitted/false and `completionEndpoint` is not an `http(s)` URL).
+- **Web-view based adapters** (`WebBrowserAdapter`) — drive a VS Code webview instead of issuing HTTP calls. The adapter registry selects this path whenever `webBased === true` or `completionEndpoint` starts with `http`. The shipped `config/devconx.config.json` defines 4 web-based adapters (ChatGPT Web, Claude Web, GitHub Copilot, DeepSeek Chat), so all four currently run through `WebBrowserAdapter`.
+
+The example below shows the Nyx-compatible HTTP form; web-based adapters simply set `"webBased": true` with an `http(s)` `completionEndpoint`:
 
 ```json
 {

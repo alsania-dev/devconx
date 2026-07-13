@@ -2,8 +2,8 @@
 
 DevCon-X is structured around three cooperating layers:
 
-1. **Adapters** — Pure JavaScript modules that replicate Nyx browser model adapters using HTTP calls. Each adapter adheres to the shared interface documented in `src/core/types.js` and is instantiated through the `AdapterRegistry`.
-2. **McpNyx Proxy** — An advanced MCP proxy server that supports multiple protocols (HTTP/SSE/WebSocket) and enables multiple MCP stdio-based and SSE-based servers to run through a unified endpoint. The proxy isolates VS Code processes from browser automation runtimes.
+1. **Adapters** — Pure JavaScript modules that integrate browser model adapters. `HttpBrowserAdapter` replicates Nyx browser model adapters using Nyx-compatible HTTP/JSON calls; `WebBrowserAdapter` drives a VS Code webview. Both adhere to the shared interface documented in `src/core/types.js` and are instantiated through the `AdapterRegistry`.
+2. **MCP Proxy (`ProxyServer`)** — A lightweight WebSocket proxy in `src/backend/proxyServer.js` that accepts prompt dispatches, performs heartbeat broadcasts, and delegates requests to adapters. It isolates VS Code processes from browser automation runtimes.
 3. **Extension UX** — A VS Code extension entrypoint with a neon-themed control panel. The interface is implemented without React to comply with Alsania lightweight requirements.
 
 ## Data Flow
@@ -15,13 +15,13 @@ graph LR
     C -->|HTTP JSON| D[Nyx Proxy / Browser Model]
     D -->|completion| C
     C --> B
-    B --> E(McpNyx Proxy Server)
+    B --> E(WebSocket Proxy Server)
     E -->|response| F[Control Panel / Client]
 ```
 
 ## MCP Proxy Contract
 
-The McpNyx proxy supports multiple endpoints and protocols (HTTP/SSE/WebSocket). WebSocket messages follow the structure:
+The proxy exposes a single WebSocket endpoint. Messages follow the structure:
 
 - **Request**
   ```json
@@ -53,7 +53,7 @@ Heartbeats are emitted periodically to maintain liveness detection and list adap
 
 - Only localhost bindings are enabled by default. Expose the proxy externally intentionally and pair with TLS termination if required.
 - Adapter headers support API key injection without hardcoding secrets in source control. Reference environment variables via Nyx proxy configuration.
-- All configuration writes pass through Zod validation to prevent unvetted adapters from loading silently.
+- All configuration writes pass through a custom `normalizeConfiguration` validation pipeline in `src/core/config.js`; `ConfigLoader.save()` re-runs it before writing, preventing unvetted adapters from loading silently.
 
 ## Extensibility
 
