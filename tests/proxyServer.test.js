@@ -100,24 +100,8 @@ function decodeServerFrame(buffer) {
   return { opcode, payload };
 }
 
-test('ProxyServer routes prompts through WebSocket frames', async (t) => {
-  const registry = new StubRegistry([new MemoryAdapter('mem')]);
-  const proxy = new ProxyServer(
-    { port: 0, host: '127.0.0.1', heartbeatIntervalMs: 100, shutdownGracePeriodMs: 100 },
-    registry,
-    new Logger('error')
-  );
-
-  await proxy.start();
-  t.after(async () => {
-    await proxy.stop();
-  });
-
-  const address = proxy.getAddress();
-  assert.ok(address);
-
+async function connectSocket(address) {
   const socket = net.createConnection(address.port, address.host);
-  t.after(() => socket.destroy());
 
   const key = randomBytes(16).toString('base64');
   const handshake = [
@@ -142,16 +126,11 @@ test('ProxyServer routes prompts through WebSocket frames', async (t) => {
     socket.once('error', reject);
   });
 
-  const request = encodeClientFrame(
-    JSON.stringify({
-      adapterId: 'mem',
-      conversationId: 'conv-1',
-      prompt: 'ping'
-    })
-  );
-  socket.write(request);
+  return socket;
+}
 
-  const response = await new Promise((resolve, reject) => {
+async function readTextFrame(socket) {
+  return new Promise((resolve, reject) => {
     const onData = (buffer) => {
       const { opcode, payload } = decodeServerFrame(buffer);
       if (opcode === 0x1) {
@@ -162,9 +141,73 @@ test('ProxyServer routes prompts through WebSocket frames', async (t) => {
     socket.on('data', onData);
     socket.once('error', reject);
   });
+}
 
+test('ProxyServer routes prompts through WebSocket frames', async (t) => {
+  const registry = new StubRegistry([new MemoryAdapter('mem')]);
+  const proxy = new ProxyServer(
+    { port: 0, host: '127.0.0.1', heartbeatIntervalMs: 100, shutdownGracePeriodMs: 1 },
+    registry,
+    new Logger('error')
+  );
+
+  await proxy.start();
+  t.after(async () => {
+    await proxy.stop();
+  });
+
+  const address = proxy.getAddress();
+  assert.ok(address);
+
+  const socket = await connectSocket(address);
+  t.after(() => socket.destroy());
+
+  const request = encodeClientFrame(
+    JSON.stringify({
+      adapterId: 'mem',
+      conversationId: 'conv-1',
+      prompt: 'ping'
+    })
+  );
+  socket.write(request);
+
+  const response = await readTextFrame(socket);
   const parsed = JSON.parse(response);
   assert.equal(parsed.type, 'response');
   assert.equal(parsed.data.adapterId, 'mem');
   assert.equal(parsed.data.response.text, 'processed:ping');
+});
+
+test('ProxyServer returns error frames for invalid prompt payloads', async (t) => {
+  const registry = new StubRegistry([new MemoryAdapter('mem')]);
+  const proxy = new ProxyServer(
+    { port: 0, host: '127.0.0.1', heartbeatIntervalMs: 100, shutdownGracePeriodMs: 1 },
+    registry,
+    new Logger('error')
+  );
+
+  await proxy.start();
+  t.after(async () => {
+    await proxy.stop();
+  });
+
+  const address = proxy.getAddress();
+  assert.ok(address);
+
+  const socket = await connectSocket(address);
+  t.after(() => socket.destroy());
+
+  socket.write(
+    encodeClientFrame(
+      JSON.stringify({
+        adapterId: 'mem',
+        prompt: 'ping'
+      })
+    )
+  );
+
+  const response = await readTextFrame(socket);
+  const parsed = JSON.parse(response);
+  assert.equal(parsed.type, 'error');
+  assert.match(parsed.error.message, /conversationId is required/);
 });
