@@ -17,6 +17,9 @@
     "pack-extension": "cd extensions/vscode && vsce package"
   },
   "devDependencies": {
-    "@vscode/vsce": "^2.15.0"
+    "@vscode/vsce": "^3.9.2"
+  },
+  "dependencies": {
+    "@genkit-ai/mcp": "^1.39.0"
   }
 }

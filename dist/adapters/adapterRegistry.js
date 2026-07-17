@@ -23,6 +23,10 @@ export class AdapterRegistry {
   }
 
   async initialize() {
+    if (this.#initialized) {
+      return;
+    }
+
     await Promise.all(
       this.#configurations.map(async (config) => {
         let adapter;
@@ -58,4 +62,5 @@ export class AdapterRegistry {
   #configurations;
   #logger;
   #adapters = new Map();
+  #initialized = false;
 }

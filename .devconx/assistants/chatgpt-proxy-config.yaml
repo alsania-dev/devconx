@@ -1,6 +1,6 @@
 name: "ChatGPT Browser Proxy"
 type: "browser-extension"
-endpoint: "http://127.0.0.1:3006/mcp"
+endpoint: "http://127.0.0.1:3055/mcp"
 protocol: "http"
 cors: true
 

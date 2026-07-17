@@ -13,4 +13,7 @@ node_modules/
 
 # Editors
 .vscode/
+
+# Deprecated directories (moved from active codebase, kept for reference)
+.deprecated/
 ```

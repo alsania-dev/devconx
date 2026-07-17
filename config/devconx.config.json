@@ -4,8 +4,8 @@
       "id": "chatgpt-web",
       "displayName": "ChatGPT Web",
       "provider": "OpenAI",
-      "baseUrl": "https://chat.openai.com",
-      "completionEndpoint": "https://chat.openai.com/",
+      "baseUrl": "https://chatgpt.com",
+      "completionEndpoint": "https://chatgpt.com/",
       "capabilities": ["chat", "web-based"],
       "webBased": true,
       "timeoutMs": 60000

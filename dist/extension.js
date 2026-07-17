@@ -22,6 +22,9 @@ export async function activate(context) {
     registry = new AdapterRegistry(configuration.adapters, logger);
     await registry.initialize();
 
+    // Start the hardened MCP proxy (localhost WebSocket) which isolates VS Code
+    // from the browser automation runtimes. The registry is initialized by the
+    // proxy on start (idempotent if already initialized).
     proxyServer = new ProxyServer(configuration.proxy, registry, logger);
     await proxyServer.start();
 

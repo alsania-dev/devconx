@@ -1,3 +1,5 @@
+import * as vscode from 'vscode';
+
 import { Logger } from '../core/logger.js';
 
 /** @typedef {import('../core/types.js').AdapterConfiguration} AdapterConfiguration */
@@ -75,8 +77,6 @@ export class WebBrowserAdapter {
    * @private
    */
   #openWebView(prompt) {
-    const vscode = require('vscode');
-
     if (this.#webviewPanel) {
       this.#webviewPanel.reveal(vscode.ViewColumn.One);
       this.#webviewPanel.webview.postMessage({

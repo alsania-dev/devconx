@@ -1,7 +1,9 @@
 {
   "name": "TypeScriptReact",
   "scopeName": "source.tsx",
-  "fileTypes": ["tsx"],
+  "fileTypes": [
+    "tsx"
+  ],
   "uuid": "805375ec-d614-41f5-8993-5843fe63ea82",
   "patterns": [
     {
@@ -406,7 +408,7 @@
         },
         {
           "name": "keyword.control.loop.tsx",
-          "match": "(?<!\\.|\\$)\\b(break|continue|do|goto|while)\\b(?!\\$)"
+          "match": "(?<!\\.|\\$)\\b(break|devconx|do|goto|while)\\b(?!\\$)"
         },
         {
           "name": "keyword.control.flow.tsx",

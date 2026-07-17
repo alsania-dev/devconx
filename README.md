@@ -1,11 +1,11 @@
 # DevCon-X — Alsania Browser Intelligence Suite
 
-DevCon-X is the fully rebranded evolution of DevCon, delivering a sovereign-first VS Code extension that orchestrates AlsaniaMCP, Nyx-compatible browser model adapters, and a hardened MCP proxy powered by McpNyx. The project is engineered for low-footprint environments while maintaining uncompromising transparency and control.
+DevCon-X is the fully rebranded evolution of DevCon, delivering a sovereign-first VS Code extension that orchestrates AlsaniaMCP, Nyx-compatible browser model adapters, and a hardened MCP proxy. The project is engineered for low-footprint environments while maintaining uncompromising transparency and control.
 
 ## ✨ Highlights
 
 - **Nyx-compatible browser adapters** — HTTP adapters reproduce the Nyx proxy contract and expose shared telemetry for any browser-accessible AI model.
-- **Integrated McpNyx-powered MCP proxy** — Lightweight unified endpoint supporting HTTP/SSE/WebSocket protocols that dispatches prompts to adapters, streams heartbeats, and maintains isolation boundaries.
+- **Integrated MCP proxy** — Lightweight WebSocket endpoint that dispatches prompts to adapters, streams heartbeats, and maintains isolation boundaries.
 - **Sovereign control panel** — Native webview with neon Alsania theming for live prompt dispatch without React or heavy frameworks.
 - **Hardened configuration pipeline** — Strict runtime validation guarantees adapter fidelity and prevents silent drift.
 - **Tested end-to-end** — Node.js native tests cover configuration, adapter, and proxy layers.
@@ -22,7 +22,7 @@ DevCon-X is the fully rebranded evolution of DevCon, delivering a sovereign-firs
 ├── memory/                  # Memory specs for Alsania agents
 ├── src/
 │   ├── adapters/            # Browser adapter implementations
-│   ├── backend/             # Backend utilities (legacy, McpNyx now handles proxying)
+│   ├── backend/             # WebSocket MCP proxy server
 │   ├── core/                # Configuration, logging, and shared types
 │   ├── frontend/            # VS Code control panel webview
 │   └── extension.js         # VS Code activation entrypoint

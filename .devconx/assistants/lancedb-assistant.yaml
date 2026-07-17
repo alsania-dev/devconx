@@ -3,7 +3,7 @@ version: 0.0.4
 schema: v1
 
 rules:
-  - uses: lancedb/lancedb-rules
+  - uses: lancedb/alsania-rules
 
 docs:
   - uses: lancedb/lancedb-enterprise-docs
@@ -23,10 +23,10 @@ models:
   - uses: ollama/nomic-embed-text-latest
 
 context:
-  - uses: continuedev/diff-context
-  - uses: continuedev/codebase-context
-  - uses: continuedev/url-context
-  - uses: continuedev/folder-context
-  - uses: continuedev/terminal-context
-  - uses: continuedev/code-context
-  - uses: continuedev/file-context
+  - uses: ./diff-context
+  - uses: ./codebase-context
+  - uses: ./url-context
+  - uses: ./folder-context
+  - uses: ./terminal-context
+  - uses: ./code-context
+  - uses: ./file-context

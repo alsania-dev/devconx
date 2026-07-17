@@ -1,5 +1,8 @@
 {
-  "fileTypes": ["java", "bsh"],
+  "fileTypes": [
+    "java",
+    "bsh"
+  ],
   "keyEquivalent": "^~J",
   "name": "Java",
   "patterns": [
@@ -596,7 +599,7 @@
           "name": "keyword.control.ternary.java"
         },
         {
-          "match": "\\b(return|break|case|continue|default|do|while|for|switch|if|else)\\b",
+          "match": "\\b(return|break|case|devconx|default|do|while|for|switch|if|else)\\b",
           "name": "keyword.control.java"
         },
         {

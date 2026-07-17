@@ -337,7 +337,7 @@
                       },
                       "provider": {
                         "type": "string",
-                        "const": "continue-proxy"
+                        "const": "devconx-proxy"
                       },
                       "apiKeyLocation": {
                         "type": "string"
@@ -1005,7 +1005,7 @@
                           },
                           "provider": {
                             "type": "string",
-                            "const": "continue-proxy"
+                            "const": "devconx-proxy"
                           },
                           "apiKeyLocation": {
                             "type": "string"

@@ -1,7 +1,9 @@
 {
   "name": "Rust",
   "scopeName": "source.rust",
-  "fileTypes": ["rs"],
+  "fileTypes": [
+    "rs"
+  ],
   "repository": {
     "block_doc_comment": {
       "comment": "Block documentation comment",
@@ -276,7 +278,7 @@
     {
       "comment": "Control keyword",
       "name": "keyword.control.rust",
-      "match": "\\b(break|continue|else|if|in|for|loop|match|return|while)\\b"
+      "match": "\\b(break|devconx|else|if|in|for|loop|match|return|while)\\b"
     },
     {
       "comment": "Keyword",

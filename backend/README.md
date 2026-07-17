@@ -4,7 +4,7 @@ The backend directory captures standalone services that complement the VS Code e
 
 ## MCP Proxy
 
-The primary backend shipped with DevConX is the WebSocket MCP proxy implemented in `src/backend/proxyServer.ts`. The proxy can be executed independently:
+The primary backend shipped with DevConX is the WebSocket MCP proxy implemented in `src/backend/proxyServer.js`. The proxy can be executed independently:
 
 ```bash
 npm run build

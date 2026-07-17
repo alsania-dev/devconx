@@ -4,7 +4,7 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-memory"],
       "env": {
-        "MEMORY_FILE_PATH": "/home/sigma/Desktop/windev/mcp-memories"
+        "MEMORY_FILE_PATH": "/home/sigma/Desktop/echo-lab/memories"
       }
     },
     "sequential-thinking": {

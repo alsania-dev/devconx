@@ -9,7 +9,7 @@ models:
 tools:
   - name: explain_code
   - name: refactor_code
-  - name: continue_conversation
+  - name: devconx_conversation
   - name: generate_code_with_preview
   - name: code_review
   - name: generate_docs

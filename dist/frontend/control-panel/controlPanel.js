@@ -169,7 +169,7 @@ export class ControlPanel {
 
   #generateNonce() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    return Array.from({ length: 32 }, () => characters[Math.floor(Crypto.randomUUID() * characters.length)]).join('');
+    return Array.from({ length: 32 }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
   }
 
   #panel;
