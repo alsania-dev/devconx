@@ -1,0 +1,6 @@
+{
+  "backendUrl": "http://127.0.0.1:5175",
+  "backendWs": "ws://127.0.0.1:5175/ws/echo",
+  "mcpUrl": "http://127.0.0.1:5175/mcp",
+  "model": "echo-cloud"
+}

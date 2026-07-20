@@ -1,5 +1,6 @@
 import { HttpBrowserAdapter } from './httpBrowserAdapter.js';
 import { WebBrowserAdapter } from './webBrowserAdapter.js';
+import { AdapterBridge } from './adapterBridge.js';
 import { Logger } from '../core/logger.js';
 
 /** @typedef {import('../core/types.js').AdapterConfiguration} AdapterConfiguration */
@@ -30,7 +31,16 @@ export class AdapterRegistry {
     await Promise.all(
       this.#configurations.map(async (config) => {
         let adapter;
-        if (config.webBased === true || config.completionEndpoint?.startsWith('http')) {
+        // Check if this is a bridge adapter (Python backend)
+        if (config.type === 'bridge' || config.bridgeEnabled) {
+          const bridgeConfig = {
+            backendUrl: config.backendUrl || 'http://127.0.0.1:5175',
+            backendWs: config.backendWs || 'ws://127.0.0.1:5175/ws/echo',
+            mcpUrl: config.mcpUrl || 'http://127.0.0.1:5175/mcp',
+            model: config.model || 'echo-cloud',
+          };
+          adapter = new AdapterBridge(bridgeConfig, this.#logger);
+        } else if (config.webBased === true || config.completionEndpoint?.startsWith('http')) {
           adapter = new WebBrowserAdapter(config, this.#logger);
         } else {
           adapter = new HttpBrowserAdapter(config, this.#logger);

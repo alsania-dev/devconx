@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "type": "mcp_identity",
+    "displayName": "Echo",
+    "uuid": "echo-cloud",
+    "pubkey_fingerprint": "PUT-YOUR-PUBKEY-FINGERPRINT"
+  },
+  "auth": {
+    "mode": "echo-cloud",
+    "allowed_hosts": ["127.0.0.1", "localhost"],
+    "expires_at": "NO-EXPIRATION"
+  },
+  "permissions": {
+    "tools_allowlist": [
+      "fs.read",
+      "fs.write",
+      "patch.apply",
+      "vscode_proxy",
+      "code_edit",
+      "search",
+      "multi_agent_bridge"
+    ],
+    "workspaces": [
+      {
+        "path": ["~/Desktop/echo-lab", "~/Desktop/insidedev"],
+        "recursive": true,
+        "write": true
+      }
+    ],
+    "network": {
+      "egress": false,
+      "ingress": false
+    }
+  },
+  "audit": {
+    "log_file": "~/Desktop/echo-lab/devcon.log",
+    "log_tokens": true
+  }
+}

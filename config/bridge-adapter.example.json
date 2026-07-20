@@ -1,0 +1,15 @@
+{
+  "adapters": [
+    {
+      "id": "echo-adapter",
+      "name": "Echo Cloud Adapter",
+      "type": "bridge",
+      "bridgeEnabled": true,
+      "backendUrl": "http://127.0.0.1:5175",
+      "backendWs": "ws://127.0.0.1:5175/ws/echo",
+      "mcpUrl": "http://127.0.0.1:5175/mcp",
+      "model": "echo-cloud",
+      "description": "Connects to the Echo Cloud backend adapter with QueenConfig identity and Scribe logging"
+    }
+  ]
+}
