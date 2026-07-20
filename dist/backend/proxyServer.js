@@ -5,6 +5,10 @@ import { Logger } from '../core/logger.js';
 
 /** @typedef {import('../adapters/adapterRegistry.js').AdapterProvider} AdapterProvider */
 
+const OPCODE_TEXT_FRAME = 0x1;
+const OPCODE_CLOSE_FRAME = 0x8;
+const WEBSOCKET_GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
+
 export class ProxyServer {
   /**
    * @param {{port: number, host: string, heartbeatIntervalMs: number, shutdownGracePeriodMs: number}} options
@@ -52,6 +56,10 @@ export class ProxyServer {
   async stop() {
     if (this.#heartbeatInterval) {
       clearInterval(this.#heartbeatInterval);
+    }
+
+    if (this.#options.shutdownGracePeriodMs > 0) {
+      await new Promise((resolve) => setTimeout(resolve, this.#options.shutdownGracePeriodMs));
     }
 
     for (const client of this.#clients) {
@@ -102,8 +110,7 @@ export class ProxyServer {
     socket.on('data', (buffer) => {
       this.#handleFrame(socket, buffer).catch((error) => {
         this.#logger.error('Frame handling failed', error);
-        socket.destroy();
-        this.#clients.delete(socket);
+        this.#sendError(socket, error.message || 'Unable to process request');
       });
     });
 
@@ -120,17 +127,19 @@ export class ProxyServer {
 
   async #handleFrame(socket, buffer) {
     const { opcode, payload } = this.#decodeFrame(buffer);
-    if (opcode === 0x8) {
+    if (opcode === OPCODE_CLOSE_FRAME) {
       socket.end();
       this.#clients.delete(socket);
       return;
     }
 
-    if (opcode !== 0x1) {
+    if (opcode !== OPCODE_TEXT_FRAME) {
       return;
     }
 
     const parsed = JSON.parse(payload.toString());
+    this.#validatePromptRequest(parsed);
+
     const adapter = this.#registry.get(parsed.adapterId);
     const response = await adapter.sendPrompt({
       conversationId: parsed.conversationId,
@@ -146,6 +155,32 @@ export class ProxyServer {
       }
     });
     socket.write(this.#encodeFrame(reply));
+  }
+
+  #validatePromptRequest(payload) {
+    if (!payload || typeof payload !== 'object') {
+      throw new Error('Payload must be a JSON object');
+    }
+
+    const requiredStringFields = ['adapterId', 'conversationId', 'prompt'];
+    for (const field of requiredStringFields) {
+      if (typeof payload[field] !== 'string' || payload[field].trim() === '') {
+        throw new Error(`${field} is required and must be a non-empty string`);
+      }
+    }
+  }
+
+  #sendError(socket, message) {
+    const response = JSON.stringify({
+      type: 'error',
+      error: {
+        message
+      }
+    });
+
+    if (!socket.destroyed) {
+      socket.write(this.#encodeFrame(response));
+    }
   }
 
   #broadcastHeartbeat() {
@@ -168,7 +203,7 @@ export class ProxyServer {
   }
 
   #generateAcceptValue(key) {
-    return createHash('sha1').update(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11', 'binary').digest('base64');
+    return createHash('sha1').update(key + WEBSOCKET_GUID, 'binary').digest('base64');
   }
 
   #decodeFrame(buffer) {
